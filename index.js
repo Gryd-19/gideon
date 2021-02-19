@@ -1,5 +1,5 @@
-const query_coinmarket =require('./query_coinmarket.js');
 const Discord = require('discord.js');
+const { default: axios } = require('axios');
 const env = require('dotenv').config();
 
 //client 
@@ -17,14 +17,21 @@ client.on('message', async message => {
         if (message_split[0] == "!price") {
             const coin = message_split[1].toUpperCase();
             if (coin.length == 3) {
-                console.log(coin);
-                message.channel.send("**" + coin + "**" + " is " + await query_coinmarket(coin));
+                let crypto_uri = "http://gryd.tech/crypto?coin=" + coin;
+                try {
+                    let crypto_value = await axios.get(crypto_uri)
+                    message.channel.send("**" + coin + "**" + " is " + crypto_value.data.value);
+                }
+                catch (e) {
+                    console.log(e);
+                }
+
             }
         }
-        if(message_split =="!play"){
-            const song= message_split[1];
-            if(song=="a"){
-                
+        if (message_split == "!play") {
+            const song = message_split[1];
+            if (song == "a") {
+
             }
         }
     }
