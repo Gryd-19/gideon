@@ -12,15 +12,20 @@ client.once('ready', () => {
 client.login(process.env.TOKEN);
 //client respond by message
 client.on('message', async message => {
+    //command
     if (message.content[0] === '!') {
         let message_split = message.content.split(' ');
+        //crypto
         if (message_split[0] == "!price") {
             const coin = message_split[1].toUpperCase();
-            if (coin.length == 3) {
+            if (coin) {
                 let crypto_uri = "http://gryd.tech/crypto?coin=" + coin;
                 try {
                     let crypto_value = await axios.get(crypto_uri)
-                    message.channel.send("**" + coin + "**" + " is " + crypto_value.data.value);
+                    if(crypto_value)
+                        message.channel.send("**" + coin + "**" + " is " + crypto_value.data.value);
+                    else
+                        message.channel.send("```diff\n- ERROR -\n```");
                 }
                 catch (e) {
                     console.log(e);
@@ -28,6 +33,7 @@ client.on('message', async message => {
 
             }
         }
+        //spotify
         if (message_split == "!play") {
             const song = message_split[1];
             if (song == "a") {
