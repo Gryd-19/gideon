@@ -22,8 +22,9 @@ client.on('message', async message => {
                 let crypto_uri = "http://gryd.tech/crypto?coin=" + coin;
                 try {
                     let crypto_value = await axios.get(crypto_uri)
-                    if(crypto_value!=null&&crypto_value!="error")
-                        message.channel.send("**" + coin + "**" + " is " + crypto_value.data.value);
+                    //console.log(crypto_value);
+                    if(crypto_value.data.value!=null&&crypto_value.data.value!="error")
+                        message.channel.send("```yaml\n"+ coin  + " is " + crypto_value.data.value+"```");
                     else
                         message.channel.send("```diff\n- ERROR -\n```");
                 }
